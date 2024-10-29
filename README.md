@@ -46,12 +46,11 @@ Cada estrutura de dados está acompanhada de uma breve descrição e exemplos de
 
 As estruturas de dados estão implementadas em:
 
-- **C++** para manipulação de ponteiros e controle de memória.
-- **Python** para abordagem de alto nível e facilidade de leitura.
+- **C** para manipulação de ponteiros e controle de memória.
 
 ## 🚀 Como Usar
 
 1. Clone este repositório para o seu ambiente local:
 
    ```bash
-   git clone https://github.com/usuario/repo.git
+   git clone https://github.com/samuka7abr/Estrutura-de-Dados-IDP.git
