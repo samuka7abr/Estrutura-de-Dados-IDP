@@ -29,5 +29,11 @@ int insere_fila(Fila* f, Paciente p){
     if(no == NULL){return 0;}
     no->dados = p;
     no->prox = NULL;
-    
+    if (f->final == NULL) 
+        f->inicio = no;
+    else{
+        f->final->prox = no;
+    }
+    f->final = no;
+    return 1;
 }
