@@ -37,3 +37,24 @@ int insere_fila(Fila* f, Paciente p){
     f->final = no;
     return 1;
 }
+int remove_fila(Fila* fi) {
+    if (fi == NULL || fi->inicio == NULL) return 0; 
+    Elem *no = fi->inicio;
+    fi->inicio = fi->inicio->prox;
+    if (fi->inicio == NULL) 
+        fi->final = NULL;
+    free(no);
+    return 1;
+}
+int fila_vazia(Fila* fi) {
+    return (fi == NULL || fi->inicio == NULL);
+}
+int tamanho_fila(Fila* fi) {
+    int cont = 0;
+    Elem* no = fi->inicio;
+    while (no != NULL) {
+        cont++;
+        no = no->prox;
+    }
+    return cont;
+}
