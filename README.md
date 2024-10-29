@@ -1,20 +1,6 @@
-# 🧩 Estrutura de Dados em C++ / Python
-
-![Licença](https://img.shields.io/github/license/usuario/repo) ![Linguagem](https://img.shields.io/github/languages/top/usuario/repo) ![Última Atualização](https://img.shields.io/github/last-commit/usuario/repo)
+# 🧩 Estrutura de Dados em C - IDP
 
 Este repositório contém implementações e explicações sobre as principais estruturas de dados, ideais para quem deseja aprofundar-se na base da programação e algoritmos. 🚀
-
-## 📑 Sumário
-
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Estruturas Implementadas](#estruturas-implementadas)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Como Usar](#como-usar)
-- [Exemplos de Uso](#exemplos-de-uso)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
-
----
 
 ## 📝 Sobre o Projeto
 
@@ -39,8 +25,6 @@ Aqui estão as estruturas de dados já implementadas e disponíveis neste reposi
    - Representação com Lista de Adjacência
    - Algoritmo de Busca em Profundidade (DFS)
    - Algoritmo de Busca em Largura (BFS)
-
-Cada estrutura de dados está acompanhada de uma breve descrição e exemplos de operações, além de comentários no código para facilitar o entendimento.
 
 ## 🛠 Tecnologias Utilizadas
 
