@@ -4,7 +4,6 @@
 #include "grafo.h"
 #include "estrutura.h"
 
-// Função para exibir o menu
 void exibir_menu() {
     printf("\n--- Sistema de Gerenciamento de Transplantes ---\n");
     printf("1. Adicionar doação\n");
@@ -14,7 +13,7 @@ void exibir_menu() {
     printf("Escolha uma opção: ");
 }
 
-// Função para exibir as capitais e seus IDs
+//mapeia as capitais e atribui um id para cada uma
 void exibir_capitais() {
     const char* capitais[] = {
         "Rio Branco", "Porto Velho", "Manaus", "Boa Vista", "Belém", 
@@ -26,44 +25,44 @@ void exibir_capitais() {
     };
 
     printf("\n--- Capitais e seus IDs ---\n");
+    //for para percorrer o array de estados e numerar cada um
     for (int i = 0; i < 27; i++) {
         printf("ID: %d - %s\n", i, capitais[i]);
     }
     printf("---------------------------\n");
 }
 
-// Função para encontrar o CD mais próximo usando BFS
+//encontra o CD mais proximo
 int encontrar_cd_bfs(Grafo* grafo, int origem, int* cds, int n_cds) {
     return bfs(grafo, origem, cds, n_cds);
 }
 
 int main() {
-    // Inicialização do grafo
-    int n_capitais = 27; // Número de capitais
+    //dá início ao grafo com 27 vértices
+    int n_capitais = 27; 
     Grafo* grafo = cria_grafo(n_capitais);
     
-    // Adicionar conexões entre capitais
-   // Adicionar conexões baseadas na lista manual
-    adiciona_aresta(grafo, 0, 2);  // Rio Branco -> Manaus
-    adiciona_aresta(grafo, 1, 2);  // Porto Velho -> Manaus
-    adiciona_aresta(grafo, 2, 0);  // Manaus -> Rio Branco
-    adiciona_aresta(grafo, 2, 1);  // Manaus -> Porto Velho
-    adiciona_aresta(grafo, 2, 3);  // Manaus -> Boa Vista
-    adiciona_aresta(grafo, 3, 2);  // Boa Vista -> Manaus
-    adiciona_aresta(grafo, 3, 4);  // Boa Vista -> Belém
-    adiciona_aresta(grafo, 4, 3);  // Belém -> Boa Vista
-    adiciona_aresta(grafo, 4, 5);  // Belém -> Macapá
-    adiciona_aresta(grafo, 4, 6);  // Belém -> Brasília
-    adiciona_aresta(grafo, 4, 7);  // Belém -> São Luís
-    adiciona_aresta(grafo, 5, 4);  // Macapá -> Belém
-    adiciona_aresta(grafo, 7, 4);  // São Luís -> Belém
-    adiciona_aresta(grafo, 7, 9);  // São Luís -> Fortaleza
-    adiciona_aresta(grafo, 7, 8);  // São Luís -> Teresina
-    adiciona_aresta(grafo, 7, 6);  // São Luís -> Palmas
-    adiciona_aresta(grafo, 9, 7);  // Fortaleza -> São Luís
-    adiciona_aresta(grafo, 9, 10); // Fortaleza -> Natal
-    adiciona_aresta(grafo, 9, 6);  // Fortaleza -> Brasília
-    adiciona_aresta(grafo, 10, 9); // atal -> Fortaleza
+    //conexões entre os vértices
+    adiciona_aresta(grafo, 0, 2);   //Rio Branco -> Manaus
+    adiciona_aresta(grafo, 1, 2);   //Porto Velho -> Manaus
+    adiciona_aresta(grafo, 2, 0);   //Manaus -> Rio Branco
+    adiciona_aresta(grafo, 2, 1);   //Manaus -> Porto Velho
+    adiciona_aresta(grafo, 2, 3);   //Manaus -> Boa Vista
+    adiciona_aresta(grafo, 3, 2);   //Boa Vista -> Manaus
+    adiciona_aresta(grafo, 3, 4);   //Boa Vista -> Belém
+    adiciona_aresta(grafo, 4, 3);   //Belém -> Boa Vista
+    adiciona_aresta(grafo, 4, 5);   //Belém -> Macapá
+    adiciona_aresta(grafo, 4, 6);   //Belém -> Brasília
+    adiciona_aresta(grafo, 4, 7);   //Belém -> São Luís
+    adiciona_aresta(grafo, 5, 4);   //Macapá -> Belém
+    adiciona_aresta(grafo, 7, 4);   //São Luís -> Belém
+    adiciona_aresta(grafo, 7, 9);   //São Luís -> Fortaleza
+    adiciona_aresta(grafo, 7, 8);   //São Luís -> Teresina
+    adiciona_aresta(grafo, 7, 6);   //São Luís -> Palmas
+    adiciona_aresta(grafo, 9, 7);   //Fortaleza -> São Luís
+    adiciona_aresta(grafo, 9, 10);  //Fortaleza -> Natal
+    adiciona_aresta(grafo, 9, 6);   //Fortaleza -> Brasília
+    adiciona_aresta(grafo, 10, 9);  //Natal -> Fortaleza
     adiciona_aresta(grafo, 10, 11); //Natal -> João Pessoa
     adiciona_aresta(grafo, 11, 10); //João Pessoa -> Natal
     adiciona_aresta(grafo, 11, 12); //João Pessoa -> Recife
@@ -113,11 +112,11 @@ int main() {
     adiciona_aresta(grafo, 26, 25); //Porto Alegre -> Florianópolis
 
 
-    // CDs: IDs das capitais com centros de distribuição
-    int cds[] = {9, 16, 23}; // Fortaleza, Brasília, São Paulo
+    //atribui os centros de distribuição pelo ID
+    int cds[] = {9, 16, 23}; //Fortaleza, Brasília, São Paulo
     int n_cds = sizeof(cds) / sizeof(cds[0]);
 
-    // Inicialização das estruturas
+    //cria as pilhas e filas de cada CD
     Pilha* pilhaBrasilia = cria_pilha();
     Pilha* pilhaFortaleza = cria_pilha();
     Pilha* pilhaSaoPaulo = cria_pilha();
@@ -125,24 +124,24 @@ int main() {
     Fila* filaBrasilia = cria_fila();
     Fila* filaFortaleza = cria_fila();
     Fila* filaSaoPaulo = cria_fila();
-
+    
+    //lista global pra mostrar todos os órgaos presentes nos CD's
     ListaGlobal* listaGlobal = cria_lista_global();
 
-    // Menu interativo
+    //do while para controlar as opções do menu
     int opcao;
     do {
         exibir_menu();
         scanf("%d", &opcao);
 
         if (opcao == 1) {
-            // Adicionar doação
+            //adicionar doação
             exibir_capitais();
             int origem;
             char tipo[20];
             printf("Digite o ID da capital de origem (0 a 26): ");
             scanf("%d", &origem);
 
-            // Validação do ID inserido
             if (origem < 0 || origem > 26) {
                 printf("ID inválido! Por favor, escolha um ID entre 0 e 26.\n");
                 continue;
@@ -151,20 +150,17 @@ int main() {
             printf("Digite o tipo de órgão (CORAÇÃO, MEDULA, CÓRNEA): ");
             scanf("%s", tipo);
 
-            // Validação do tipo de órgão
             if (strcmp(tipo, "CORAÇÃO") != 0 && strcmp(tipo, "MEDULA") != 0 && strcmp(tipo, "CÓRNEA") != 0) {
                 printf("Tipo de órgão inválido! Por favor, escolha entre CORAÇÃO, MEDULA ou CÓRNEA.\n");
                 continue;
             }
 
-            // Criar órgão
             Orgao* novo_orgao = (Orgao*) malloc(sizeof(Orgao));
             novo_orgao->id = rand() % 1000;
             strcpy(novo_orgao->tipo, tipo);
             sprintf(novo_orgao->origem, "Capital %d", origem);
             strcpy(novo_orgao->status, "Em espera para transplante");
 
-            // Determinar o CD mais próximo
             int cd_mais_proximo = encontrar_cd_bfs(grafo, origem, cds, n_cds);
             if (cd_mais_proximo == -1) {
                 printf("Erro: Não foi possível encontrar um CD conectado à capital de origem.\n");
@@ -172,7 +168,6 @@ int main() {
                 continue;
             }
 
-            // Adicionar à estrutura apropriada
             if (strcmp(tipo, "CORAÇÃO") == 0) {
                 if (cd_mais_proximo == 16) {
                     adiciona_pilha(pilhaBrasilia, novo_orgao);
@@ -195,7 +190,7 @@ int main() {
             printf("Doação adicionada com sucesso no CD mais próximo (%d).\n", cd_mais_proximo);
 
         } else if (opcao == 2) {
-            // Processar doação
+            //processar doação
             int cd;
             printf("Escolha o CD para processar a doação (1 - Brasília, 2 - Fortaleza, 3 - São Paulo): ");
             scanf("%d", &cd);
@@ -234,7 +229,7 @@ int main() {
             }
 
         } else if (opcao == 3) {
-            // Exibir estado das estruturas
+            //exibir estado das estruturas
             printf("\n--- Brasília ---\n");
             exibe_pilha(pilhaBrasilia);
             exibe_fila(filaBrasilia);
@@ -253,7 +248,7 @@ int main() {
 
     } while (opcao != 4);
 
-    // Libera memória
+    //libera memória
     libera_pilha(pilhaBrasilia);
     libera_pilha(pilhaFortaleza);
     libera_pilha(pilhaSaoPaulo);

@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "grafo.h"
 
-// Cria o grafo
 Grafo* cria_grafo(int nro_vertices) {
     Grafo* gr = (Grafo*) malloc(sizeof(Grafo));
     gr->nro_vertices = nro_vertices;
@@ -13,21 +12,18 @@ Grafo* cria_grafo(int nro_vertices) {
     return gr;
 }
 
-// Adiciona uma aresta ao grafo (não direcionada)
 void adiciona_aresta(Grafo* gr, int origem, int destino) {
     Vertice* novo = (Vertice*) malloc(sizeof(Vertice));
     novo->id = destino;
     novo->prox = gr->arestas[origem].head;
     gr->arestas[origem].head = novo;
 
-    // Adiciona a conexão reversa, pois o grafo é não direcionado
     novo = (Vertice*) malloc(sizeof(Vertice));
     novo->id = origem;
     novo->prox = gr->arestas[destino].head;
     gr->arestas[destino].head = novo;
 }
 
-// Exibe o grafo
 void exibe_grafo(Grafo* gr) {
     for (int i = 0; i < gr->nro_vertices; i++) {
         printf("Cidade %d conecta-se com: ", i);
@@ -40,7 +36,6 @@ void exibe_grafo(Grafo* gr) {
     }
 }
 
-// Libera a memória do grafo
 void libera_grafo(Grafo* gr) {
     for (int i = 0; i < gr->nro_vertices; i++) {
         Vertice* atual = gr->arestas[i].head;
@@ -54,7 +49,6 @@ void libera_grafo(Grafo* gr) {
     free(gr);
 }
 
-// Algoritmo DFS (Busca em Profundidade)
 void dfs(Grafo* gr, int origem, int* visitados, int* resultado, int* index, int* cds, int n_cds) {
     visitados[origem] = 1;
     for (int i = 0; i < n_cds; i++) {
@@ -74,7 +68,6 @@ void dfs(Grafo* gr, int origem, int* visitados, int* resultado, int* index, int*
     }
 }
 
-// Algoritmo BFS (Busca em Largura)
 int bfs(Grafo* gr, int origem, int* cds, int n_cds) {
     int* visitados = (int*) calloc(gr->nro_vertices, sizeof(int));
     int* fila = (int*) malloc(gr->nro_vertices * sizeof(int));
@@ -89,7 +82,7 @@ int bfs(Grafo* gr, int origem, int* cds, int n_cds) {
             if (atual == cds[i]) {
                 free(visitados);
                 free(fila);
-                return atual; // Retorna o CD encontrado
+                return atual; 
             }
         }
 
@@ -105,6 +98,6 @@ int bfs(Grafo* gr, int origem, int* cds, int n_cds) {
 
     free(visitados);
     free(fila);
-    return -1; // Nenhum CD encontrado (teoricamente impossível agora)
+    return -1; 
 }
 
