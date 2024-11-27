@@ -19,6 +19,6 @@ void exibe_grafo(Grafo* gr);
 void libera_grafo(Grafo* gr);
 
 //BUSCA
-void dfs(Grafo* gr, int origem, int* visitados, int* resultado, int* index, int* cds, int n_cds);
+void dfs(Grafo* gr, int origem, int* visitados, int* resultado, int* index, int* cds, int n_cds, int* pais);
 int bfs(Grafo* gr, int origem, int* cds, int n_cds, int* pais);
 void exibir_caminho(int* pais, int origem, int destino, const char** capitais);

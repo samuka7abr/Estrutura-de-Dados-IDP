@@ -1,23 +1,23 @@
-    adiciona_aresta(grafo, 0, 2);  // io Branco -> Manaus
-    adiciona_aresta(grafo, 1, 2);  // orto Velho -> Manaus
-    adiciona_aresta(grafo, 2, 0);  // anaus -> Rio Branco
-    adiciona_aresta(grafo, 2, 1);  // anaus -> Porto Velho
-    adiciona_aresta(grafo, 2, 3);  // anaus -> Boa Vista
-    adiciona_aresta(grafo, 3, 2);  // oa Vista -> Manaus
-    adiciona_aresta(grafo, 3, 4);  // oa Vista -> Belém
-    adiciona_aresta(grafo, 4, 3);  // elém -> Boa Vista
-    adiciona_aresta(grafo, 4, 5);  // elém -> Macapá
-    adiciona_aresta(grafo, 4, 6);  // elém -> Brasília
-    adiciona_aresta(grafo, 4, 7);  // elém -> São Luís
-    adiciona_aresta(grafo, 5, 4);  // acapá -> Belém
-    adiciona_aresta(grafo, 7, 4);  // ão Luís -> Belém
-    adiciona_aresta(grafo, 7, 9);  // ão Luís -> Fortaleza
-    adiciona_aresta(grafo, 7, 8);  // ão Luís -> Teresina
-    adiciona_aresta(grafo, 7, 6);  // ão Luís -> Palmas
-    adiciona_aresta(grafo, 9, 7);  // ortaleza -> São Luís
-    adiciona_aresta(grafo, 9, 10); // ortaleza -> Natal
-    adiciona_aresta(grafo, 9, 6);  // ortaleza -> Brasília
-    adiciona_aresta(grafo, 10, 9); // atal -> Fortaleza
+    adiciona_aresta(grafo, 0, 2);   //Rio Branco -> Manaus
+    adiciona_aresta(grafo, 1, 2);   //Porto Velho -> Manaus
+    adiciona_aresta(grafo, 2, 0);   //Manaus -> Rio Branco
+    adiciona_aresta(grafo, 2, 1);   //Manaus -> Porto Velho
+    adiciona_aresta(grafo, 2, 3);   //Manaus -> Boa Vista
+    adiciona_aresta(grafo, 3, 2);   //Boa Vista -> Manaus
+    adiciona_aresta(grafo, 3, 4);   //Boa Vista -> Belém
+    adiciona_aresta(grafo, 4, 3);   //Belém -> Boa Vista
+    adiciona_aresta(grafo, 4, 5);   //Belém -> Macapá
+    adiciona_aresta(grafo, 4, 6);   //Belém -> Brasília
+    adiciona_aresta(grafo, 4, 7);   //Belém -> São Luís
+    adiciona_aresta(grafo, 5, 4);   //Macapá -> Belém
+    adiciona_aresta(grafo, 7, 4);   //São Luís -> Belém
+    adiciona_aresta(grafo, 7, 9);   //São Luís -> Fortaleza
+    adiciona_aresta(grafo, 7, 8);   //São Luís -> Teresina
+    adiciona_aresta(grafo, 7, 6);   //São Luís -> Palmas
+    adiciona_aresta(grafo, 9, 7);   //Fortaleza -> São Luís
+    adiciona_aresta(grafo, 9, 10);  //Fortaleza -> Natal
+    adiciona_aresta(grafo, 9, 6);   //Fortaleza -> Brasília
+    adiciona_aresta(grafo, 10, 9);  //Natal -> Fortaleza
     adiciona_aresta(grafo, 10, 11); //Natal -> João Pessoa
     adiciona_aresta(grafo, 11, 10); //João Pessoa -> Natal
     adiciona_aresta(grafo, 11, 12); //João Pessoa -> Recife

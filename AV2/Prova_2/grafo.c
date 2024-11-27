@@ -49,8 +49,9 @@ void libera_grafo(Grafo* gr) {
     free(gr);
 }
 
-void dfs(Grafo* gr, int origem, int* visitados, int* resultado, int* index, int* cds, int n_cds) {
+void dfs(Grafo* gr, int origem, int* visitados, int* resultado, int* index, int* cds, int n_cds, int* pais) {
     visitados[origem] = 1;
+
     for (int i = 0; i < n_cds; i++) {
         if (origem == cds[i]) {
             resultado[*index] = origem;
@@ -62,7 +63,8 @@ void dfs(Grafo* gr, int origem, int* visitados, int* resultado, int* index, int*
     Vertice* atual = gr->arestas[origem].head;
     while (atual) {
         if (!visitados[atual->id]) {
-            dfs(gr, atual->id, visitados, resultado, index, cds, n_cds);
+            pais[atual->id] = origem; 
+            dfs(gr, atual->id, visitados, resultado, index, cds, n_cds, pais);
         }
         atual = atual->prox;
     }

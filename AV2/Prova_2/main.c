@@ -37,6 +37,18 @@ int encontrar_cd_bfs(Grafo* grafo, int origem, int* cds, int n_cds, int* pais) {
     return bfs(grafo, origem, cds, n_cds, pais);
 }
 
+int encontrar_cd_dfs(Grafo* grafo, int origem, int* cds, int n_cds, int* pais) {
+    int visitados[grafo->nro_vertices];
+    int resultado[grafo->nro_vertices];
+    int index = 0;
+
+    memset(visitados, 0, sizeof(visitados));
+    memset(pais, -1, grafo->nro_vertices * sizeof(int));
+
+    dfs(grafo, origem, visitados, resultado, &index, cds, n_cds, pais);
+    return index > 0 ? resultado[0] : -1;
+}
+
 int main() {
     const char* capitais[] = {
         "Rio Branco", "Porto Velho", "Manaus", "Boa Vista", "Belém", 
@@ -138,7 +150,9 @@ int main() {
     ListaGlobal* listaGlobal = cria_lista_global();
 
     // Vetor para armazenar os pais na busca
-    int pais[n_capitais];
+    int pais_bfs[n_capitais];
+    int pais_dfs[n_capitais];
+
 
     // Do while para controlar as opções do menu
     int opcao;
@@ -147,25 +161,14 @@ int main() {
         scanf("%d", &opcao);
 
         if (opcao == 1) {
-            // Adicionar doação
             exibir_capitais();
             int origem;
             char tipo[20];
             printf("Digite o ID da capital de origem (0 a 26): ");
             scanf("%d", &origem);
 
-            if (origem < 0 || origem > 26) {
-                printf("ID inválido! Por favor, escolha um ID entre 0 e 26.\n");
-                continue;
-            }
-
             printf("Digite o tipo de órgão (CORAÇÃO, MEDULA, CÓRNEA): ");
             scanf("%s", tipo);
-
-            if (strcmp(tipo, "CORAÇÃO") != 0 && strcmp(tipo, "MEDULA") != 0 && strcmp(tipo, "CÓRNEA") != 0) {
-                printf("Tipo de órgão inválido! Por favor, escolha entre CORAÇÃO, MEDULA ou CÓRNEA.\n");
-                continue;
-            }
 
             Orgao* novo_orgao = (Orgao*) malloc(sizeof(Orgao));
             novo_orgao->id = rand() % 1000;
@@ -173,79 +176,54 @@ int main() {
             sprintf(novo_orgao->origem, "Capital %d", origem);
             strcpy(novo_orgao->status, "Em espera para transplante");
 
-            int cd_mais_proximo = encontrar_cd_bfs(grafo, origem, cds, n_cds, pais);
-            if (cd_mais_proximo == -1) {
-                printf("Erro: Não foi possível encontrar um CD conectado à capital de origem.\n");
-                free(novo_orgao);
-                continue;
-            }
+            // BFS
+            int cd_bfs = encontrar_cd_bfs(grafo, origem, cds, n_cds, pais_bfs);
 
-            printf("\nCaminho percorrido: ");
-            exibir_caminho(pais, origem, cd_mais_proximo, capitais);
+            // DFS
+            int cd_dfs = encontrar_cd_dfs(grafo, origem, cds, n_cds, pais_dfs);
+
+            printf("\nCaminho percorrido (BFS): ");
+            exibir_caminho(pais_bfs, origem, cd_bfs, capitais);
+
+            printf("\nCaminho percorrido (DFS): ");
+            exibir_caminho(pais_dfs, origem, cd_dfs, capitais);
+
             printf("\n");
 
+            // Adiciona o órgão no CD mais próximo
             if (strcmp(tipo, "CORAÇÃO") == 0) {
-                if (cd_mais_proximo == 16) {
-                    adiciona_pilha(pilhaBrasilia, novo_orgao);
-                } else if (cd_mais_proximo == 9) {
-                    adiciona_pilha(pilhaFortaleza, novo_orgao);
-                } else if (cd_mais_proximo == 23) {
-                    adiciona_pilha(pilhaSaoPaulo, novo_orgao);
-                }
+                if (cd_bfs == 16) adiciona_pilha(pilhaBrasilia, novo_orgao);
+                else if (cd_bfs == 9) adiciona_pilha(pilhaFortaleza, novo_orgao);
+                else if (cd_bfs == 23) adiciona_pilha(pilhaSaoPaulo, novo_orgao);
             } else {
-                if (cd_mais_proximo == 16) {
-                    adiciona_fila(filaBrasilia, novo_orgao);
-                } else if (cd_mais_proximo == 9) {
-                    adiciona_fila(filaFortaleza, novo_orgao);   
-                } else if (cd_mais_proximo == 23) {
-                    adiciona_fila(filaSaoPaulo, novo_orgao);
-                }
+                if (cd_bfs == 16) adiciona_fila(filaBrasilia, novo_orgao);
+                else if (cd_bfs == 9) adiciona_fila(filaFortaleza, novo_orgao);
+                else if (cd_bfs == 23) adiciona_fila(filaSaoPaulo, novo_orgao);
             }
 
             adiciona_lista_global(listaGlobal, novo_orgao);
-            printf("Doação adicionada com sucesso no CD mais próximo (%d).\n", cd_mais_proximo);
-
+            printf("Doação adicionada com sucesso.\n");
         } else if (opcao == 2) {
-            // Processar doação
-            int cd;
             printf("Escolha o CD para processar a doação (1 - Brasília, 2 - Fortaleza, 3 - São Paulo): ");
+            int cd;
             scanf("%d", &cd);
-
             Orgao* orgao_removido = NULL;
 
-            if (cd == 1) { // CD Brasília
-                if (!pilha_vazia(pilhaBrasilia)) {
-                    orgao_removido = remove_pilha(pilhaBrasilia);
-                } else if (!fila_vazia(filaBrasilia)) {
-                    orgao_removido = remove_fila(filaBrasilia);
-                }
-            } else if (cd == 2) { // CD Fortaleza
-                if (!pilha_vazia(pilhaFortaleza)) {
-                    orgao_removido = remove_pilha(pilhaFortaleza);
-                } else if (!fila_vazia(filaFortaleza)) {
-                    orgao_removido = remove_fila(filaFortaleza);
-                }
-            } else if (cd == 3) { // CD São Paulo
-                if (!pilha_vazia(pilhaSaoPaulo)) {
-                    orgao_removido = remove_pilha(pilhaSaoPaulo);
-                } else if (!fila_vazia(filaSaoPaulo)) {
-                    orgao_removido = remove_fila(filaSaoPaulo);
-                }
-            } else {
-                printf("CD inválido! Por favor, escolha 1, 2 ou 3.\n");
-                continue;
+            if (cd == 1) {
+                orgao_removido = pilha_vazia(pilhaBrasilia) ? remove_fila(filaBrasilia) : remove_pilha(pilhaBrasilia);
+            } else if (cd == 2) {
+                orgao_removido = pilha_vazia(pilhaFortaleza) ? remove_fila(filaFortaleza) : remove_pilha(pilhaFortaleza);
+            } else if (cd == 3) {
+                orgao_removido = pilha_vazia(pilhaSaoPaulo) ? remove_fila(filaSaoPaulo) : remove_pilha(pilhaSaoPaulo);
             }
 
             if (orgao_removido) {
                 printf("Órgão do tipo %s processado com sucesso.\n", orgao_removido->tipo);
-                atualiza_status_lista_global(listaGlobal, orgao_removido->id, "Órgão transplantado");
                 free(orgao_removido);
             } else {
-                printf("Não há órgãos disponíveis para transplante neste CD.\n");
+                printf("Nenhum órgão disponível.\n");
             }
-
         } else if (opcao == 3) {
-            // Exibir estado das estruturas
             printf("\n--- Brasília ---\n");
             exibe_pilha(pilhaBrasilia);
             exibe_fila(filaBrasilia);
@@ -258,13 +236,11 @@ int main() {
             exibe_pilha(pilhaSaoPaulo);
             exibe_fila(filaSaoPaulo);
 
-            printf("\n--- Lista Global ---\n"); 
+            printf("\n--- Lista Global ---\n");
             exibe_lista_global(listaGlobal);
         }
-
     } while (opcao != 4);
 
-    // Libera memória
     libera_pilha(pilhaBrasilia);
     libera_pilha(pilhaFortaleza);
     libera_pilha(pilhaSaoPaulo);
