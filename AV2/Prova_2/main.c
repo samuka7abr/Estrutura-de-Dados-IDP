@@ -13,7 +13,7 @@ void exibir_menu() {
     printf("Escolha uma opção: ");
 }
 
-//mapeia as capitais e atribui um id para cada uma
+// Mapeia as capitais e atribui um ID para cada uma
 void exibir_capitais() {
     const char* capitais[] = {
         "Rio Branco", "Porto Velho", "Manaus", "Boa Vista", "Belém", 
@@ -25,20 +25,29 @@ void exibir_capitais() {
     };
 
     printf("\n--- Capitais e seus IDs ---\n");
-    //for para percorrer o array de estados e numerar cada um
+    // For para percorrer o array de estados e numerar cada um
     for (int i = 0; i < 27; i++) {
         printf("ID: %d - %s\n", i, capitais[i]);
     }
     printf("---------------------------\n");
 }
 
-//encontra o CD mais proximo
-int encontrar_cd_bfs(Grafo* grafo, int origem, int* cds, int n_cds) {
-    return bfs(grafo, origem, cds, n_cds);
+// Encontra o CD mais próximo
+int encontrar_cd_bfs(Grafo* grafo, int origem, int* cds, int n_cds, int* pais) {
+    return bfs(grafo, origem, cds, n_cds, pais);
 }
 
 int main() {
-    //dá início ao grafo com 27 vértices
+    const char* capitais[] = {
+        "Rio Branco", "Porto Velho", "Manaus", "Boa Vista", "Belém", 
+        "Macapá", "Palmas", "São Luís", "Teresina", "Fortaleza", 
+        "Natal", "João Pessoa", "Recife", "Maceió", "Aracaju", 
+        "Salvador", "Brasília", "Goiânia", "Cuiabá", "Campo Grande", 
+        "Belo Horizonte", "Vitória", "Rio de Janeiro", "São Paulo", 
+        "Curitiba", "Florianópolis", "Porto Alegre"
+    };
+
+    // Dá início ao grafo com 27 vértices
     int n_capitais = 27; 
     Grafo* grafo = cria_grafo(n_capitais);
     
@@ -112,11 +121,11 @@ int main() {
     adiciona_aresta(grafo, 26, 25); //Porto Alegre -> Florianópolis
 
 
-    //atribui os centros de distribuição pelo ID
-    int cds[] = {9, 16, 23}; //Fortaleza, Brasília, São Paulo
+    // Atribui os centros de distribuição pelo ID
+    int cds[] = {9, 16, 23}; // Fortaleza, Brasília, São Paulo
     int n_cds = sizeof(cds) / sizeof(cds[0]);
 
-    //cria as pilhas e filas de cada CD
+    // Cria as pilhas e filas de cada CD
     Pilha* pilhaBrasilia = cria_pilha();
     Pilha* pilhaFortaleza = cria_pilha();
     Pilha* pilhaSaoPaulo = cria_pilha();
@@ -125,17 +134,20 @@ int main() {
     Fila* filaFortaleza = cria_fila();
     Fila* filaSaoPaulo = cria_fila();
     
-    //lista global pra mostrar todos os órgaos presentes nos CD's
+    // Lista global pra mostrar todos os órgãos presentes nos CD's
     ListaGlobal* listaGlobal = cria_lista_global();
 
-    //do while para controlar as opções do menu
+    // Vetor para armazenar os pais na busca
+    int pais[n_capitais];
+
+    // Do while para controlar as opções do menu
     int opcao;
     do {
         exibir_menu();
         scanf("%d", &opcao);
 
         if (opcao == 1) {
-            //adicionar doação
+            // Adicionar doação
             exibir_capitais();
             int origem;
             char tipo[20];
@@ -161,12 +173,16 @@ int main() {
             sprintf(novo_orgao->origem, "Capital %d", origem);
             strcpy(novo_orgao->status, "Em espera para transplante");
 
-            int cd_mais_proximo = encontrar_cd_bfs(grafo, origem, cds, n_cds);
+            int cd_mais_proximo = encontrar_cd_bfs(grafo, origem, cds, n_cds, pais);
             if (cd_mais_proximo == -1) {
                 printf("Erro: Não foi possível encontrar um CD conectado à capital de origem.\n");
                 free(novo_orgao);
                 continue;
             }
+
+            printf("\nCaminho percorrido: ");
+            exibir_caminho(pais, origem, cd_mais_proximo, capitais);
+            printf("\n");
 
             if (strcmp(tipo, "CORAÇÃO") == 0) {
                 if (cd_mais_proximo == 16) {
@@ -190,7 +206,7 @@ int main() {
             printf("Doação adicionada com sucesso no CD mais próximo (%d).\n", cd_mais_proximo);
 
         } else if (opcao == 2) {
-            //processar doação
+            // Processar doação
             int cd;
             printf("Escolha o CD para processar a doação (1 - Brasília, 2 - Fortaleza, 3 - São Paulo): ");
             scanf("%d", &cd);
@@ -229,7 +245,7 @@ int main() {
             }
 
         } else if (opcao == 3) {
-            //exibir estado das estruturas
+            // Exibir estado das estruturas
             printf("\n--- Brasília ---\n");
             exibe_pilha(pilhaBrasilia);
             exibe_fila(filaBrasilia);
@@ -248,7 +264,7 @@ int main() {
 
     } while (opcao != 4);
 
-    //libera memória
+    // Libera memória
     libera_pilha(pilhaBrasilia);
     libera_pilha(pilhaFortaleza);
     libera_pilha(pilhaSaoPaulo);

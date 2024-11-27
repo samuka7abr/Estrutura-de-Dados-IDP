@@ -68,13 +68,14 @@ void dfs(Grafo* gr, int origem, int* visitados, int* resultado, int* index, int*
     }
 }
 
-int bfs(Grafo* gr, int origem, int* cds, int n_cds) {
+int bfs(Grafo* gr, int origem, int* cds, int n_cds, int* pais) {
     int* visitados = (int*) calloc(gr->nro_vertices, sizeof(int));
     int* fila = (int*) malloc(gr->nro_vertices * sizeof(int));
     int inicio = 0, fim = 0;
 
     visitados[origem] = 1;
     fila[fim++] = origem;
+    pais[origem] = -1; 
 
     while (inicio < fim) {
         int atual = fila[inicio++];
@@ -91,6 +92,7 @@ int bfs(Grafo* gr, int origem, int* cds, int n_cds) {
             if (!visitados[adj->id]) {
                 visitados[adj->id] = 1;
                 fila[fim++] = adj->id;
+                pais[adj->id] = atual; 
             }
             adj = adj->prox;
         }
@@ -101,3 +103,16 @@ int bfs(Grafo* gr, int origem, int* cds, int n_cds) {
     return -1; 
 }
 
+void exibir_caminho(int* pais, int origem, int destino, const char** capitais) {
+    if (destino == -1) {
+        return; 
+    }
+
+    if (destino == origem) {
+        printf("%s", capitais[origem]);
+        return;
+    }
+
+    exibir_caminho(pais, origem, pais[destino], capitais);
+    printf(" -> %s", capitais[destino]);
+}

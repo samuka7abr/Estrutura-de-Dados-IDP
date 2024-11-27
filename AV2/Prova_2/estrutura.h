@@ -47,4 +47,3 @@ void adiciona_lista_global(ListaGlobal* lista, Orgao* o);
 void atualiza_status_lista_global(ListaGlobal* lista, int id, const char* novo_status);
 void exibe_lista_global(ListaGlobal* lista);
 void libera_lista_global(ListaGlobal* lista);
-
