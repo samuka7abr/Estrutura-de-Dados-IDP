@@ -1,6 +1,6 @@
 # 🧩 Estrutura de Dados em C - IDP
 
-Este repositório contém implementações e explicações sobre as principais estruturas de dados, ideais para quem deseja aprofundar-se na base da programação e algoritmos. 🚀
+Este repositório contém atividades, explicações e slides, usados durante o segundo semestre de 2024 na matéria de Estrutura de Dados 🚀
 
 ## 📝 Sobre o Projeto
 
@@ -31,6 +31,7 @@ Aqui estão as estruturas de dados já implementadas e disponíveis neste reposi
 As estruturas de dados estão implementadas em:
 
 - **C** para manipulação de ponteiros e controle de memória.
+- **Python** Para importação e uso de funções em C para comparar desempenho entre estruturas e algorítimos
 
 ## 🚀 Como Usar
 
